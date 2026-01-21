@@ -23,6 +23,9 @@ const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 const app = express();
 const server = http.createServer(app);
 
+// ✅ Trust proxy (important)
+app.set("trust proxy", 1);
+
 // Socket.io setup
 export const io = new Server(server, {
   cors: {
@@ -44,7 +47,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("disconnect", (socket) => {
+  socket.on("disconnect", () => {
     console.log("Socket disconnected:", socket.id);
 
     // Remove user from map
@@ -62,7 +65,7 @@ app.use(
   cors({
     origin: CLIENT_URL,
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 app.use(cookieParser());
