@@ -22,8 +22,7 @@ const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 // App setup
 const app = express();
 const server = http.createServer(app);
-
-
+app.set("trust proxy", 1); // Add this line!
 
 // Socket.io setup
 export const io = new Server(server, {
